@@ -1,0 +1,22 @@
+.jumbotron{
+    background-image: url('/img/bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    .jumbotron__content{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0 131px;
+        height: inherit;
+        span{
+            display: block;
+       } 
+        .jumbotron__content-title{
+            padding-bottom: 20px;
+        }
+        .jumbotron__content-description{
+            padding-bottom: 36px;
+        }
+    }
+}
