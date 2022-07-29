@@ -1,4 +1,8 @@
 import Link from "next/link"
+import Logo from '../../assets/icons/logo.svg'
+import Facebook from '../../assets/icons/facebook.svg'
+import Gmail from '../../assets/icons/gmail.svg'
+import Twitter from '../../assets/icons/twitter.svg'
 const Footer = () => {
     return (
         <footer className="footer">
@@ -6,7 +10,7 @@ const Footer = () => {
                 <div className="footer__content-image">
                     <Link href={"/"}>
                         <a>
-                            <div className="square"></div>
+                            <Logo />
                         </a>
                     </Link>
                 </div>
@@ -101,19 +105,19 @@ const Footer = () => {
                         <ul className="list">
                             <li className="list__item">
                                 <Link href={"#"}>
-                                    <a>Support</a>
+                                    <a><Facebook /></a>
                                 </Link>
                             </li>
 
                             <li className="list__item">
                                 <Link href={"#"}>
-                                    <a>Custome Service</a>
+                                    <a><Gmail /></a>
                                 </Link>
                             </li>
 
                             <li className="list__item">
                                 <Link href={"#"}>
-                                    <a>Get started</a>
+                                    <a><Twitter /></a>
                                 </Link>
                             </li>
                         </ul>

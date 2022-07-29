@@ -2,13 +2,19 @@ import { useState } from "react";
 import Link from "next/link";
 
 export const getStaticProps = async () => {
-  const res = await fetch(
-    "https://manual-case-study.herokuapp.com/questionnaires/972423.json"
-  );
-  const data = await res.json();
-  return {
-    props: { quizzes: data.questions },
-  };
+  try {
+    const res = await fetch(
+      "https://manual-case-study.herokuapp.com/questionnaires/972423.json"
+    );
+    
+    const data = await res.json();
+
+    return {
+      props: { quizzes: data.questions },
+    };
+  } catch (error) {
+      console.log(error);
+  }
 };
 
 const Quizzes = ({ quizzes }) => {

@@ -57,9 +57,10 @@ h1{
     line-height: 5.75rem;
     font-weight: 700;
 
-    /*@media only screen and (min-width: 1440px){
+    @media only screen and (max-width: 767px){
         font-size: 3.25rem;
-    }*/
+        line-height: 3.75rem;
+    }
 }
 
 h2{
