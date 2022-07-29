@@ -1,7 +1,14 @@
 .btn{
     text-transform: uppercase;
-    background-color: var(--red);
-    color: var(--white);
     width: 156px;
     min-height: 45px;
+    &.btn-primary{
+        background-color: var(--red);
+        color: var(--white);
+    }
+    &.btn-secondary{
+        background-color: transparent;
+        border: 1px solid var(--red);
+        color: var(--red);
+    }
 }

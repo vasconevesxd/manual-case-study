@@ -1,19 +1,13 @@
 /*==== IMPORTS ====*/
 
-/* ==== CSS Utils ==== */
-
-/* ==== Reset from Normalize ==== */
-
 /* ==== Basic Reset ==== */
 @import 'base/reset';
 
 /* ==== Fonts ==== */
+@import 'base/fonts';
 
 /* ==== CSS Base ==== */
 @import 'base/colors';
-@import 'base/fonts';
-
-/* ==== CSS Page ==== */
 
 /* ==== CSS Componenets ==== */
 @import 'componenets/jumbotron';
@@ -23,7 +17,4 @@
 @import 'layout/navbar';
 @import 'layout/footer';
 @import 'layout/section';
-
-/* ==== CSS Pages ==== */
-
-/* ==== CSS Vendors ==== */
+@import 'layout/quizzes';

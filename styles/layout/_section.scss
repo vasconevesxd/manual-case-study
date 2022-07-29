@@ -8,6 +8,16 @@
         display: flex;
         justify-content: center;
         position: relative;
+        @media (max-width: 767px){
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            &:not(:last-child){
+                margin-bottom: 100px;
+                flex-direction: column-reverse;
+            }
+        }
         &:not(:last-child){
             margin-bottom: 100px;
         }
@@ -15,6 +25,9 @@
         .section__image{
             width:370px;
             height:445px;
+            @media (max-width: 767px){
+                margin-top: 20px;
+            }
             &.number-one::after{
                 content: "01";
                 color: var(--lighter-green);
@@ -26,6 +39,10 @@
                 font-weight: 700;
                 left: 40%;
                 z-index: -1;
+                @media (max-width: 767px){
+                    content: unset;
+                   
+                }
             }
             &.number-two::after{
                 content: "02";
@@ -38,6 +55,9 @@
                 font-weight: 700;
                 left: 26%;
                 z-index: -1;
+                @media (max-width: 767px){
+                   content: unset;
+                }
             }
         }
         .section__content{
@@ -45,7 +65,10 @@
             flex-direction: column;
             justify-content: center;
             margin-left: 123px;
-       
+
+            @media (max-width: 767px){
+                margin:auto;
+            }
             span{
                 display: block;
             }
@@ -53,9 +76,7 @@
             .section__content-title{
                 text-transform: uppercase;
             }
-            .section__content-subtitle{
 
-            }
             .section__content-description{
                 padding-top: 22px;
            
@@ -63,7 +84,10 @@
         }
         &:last-child{
             .section__content{
-                margin-right: 123px;
+                margin-left: 123px;
+                @media (max-width: 767px){
+                    margin:auto;
+                }
             }
         }
     }
