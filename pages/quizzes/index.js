@@ -1,5 +1,7 @@
 import { useState } from "react";
 import Link from "next/link";
+import Quiz from "../../components/elements/Quiz"
+import Messages from "../../components/elements/Messages"
 
 export const getStaticProps = async () => {
   try {
@@ -13,7 +15,12 @@ export const getStaticProps = async () => {
       props: { quizzes: data.questions },
     };
   } catch (error) {
-      console.log(error);
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
   }
 };
 
@@ -56,18 +63,7 @@ const Quizzes = ({ quizzes }) => {
   return (
     <section className="quizzes">
       {result ? (
-        <div className="quizzes__content">
-          <div className="quizzes__message">
-            <h3>
-              “Great news! We have the perfect treatment for your hair loss.
-              Proceed to
-              <a href={"/"}>
-                <h3>www.manual.co</h3>
-              </a>
-              , and prepare to say hello to your new hair!
-            </h3>
-          </div>
-        </div>
+        <Messages state={'success'}/>
       ) : (
         <div>
           {selectedOptions[currentQuestion - 1]?.isRejected !== true ? (
@@ -82,54 +78,15 @@ const Quizzes = ({ quizzes }) => {
           ) : null}
 
           {selectedOptions[currentQuestion - 1]?.isRejected !== true ? (
-            <div
-              className={`quizzes__content ${
-                currentQuestion == 0 ? "grid-3" : "grid-2"
-              }`}
-            >
-              {quizzes[currentQuestion].options.map((quiz, index) => (
-                <div
-                  className="quizzes__content-input"
-                  key={index}
-                  onClick={(e) => handleAnswerOption(index)}
-                >
-                  <input
-                    type="radio"
-                    name={quiz.value.toString()}
-                    value={quiz.value.toString()}
-                    onChange={(e) => handleAnswerOption(index)}
-                    checked={
-                      index === selectedOptions[currentQuestion]?.answerByUser
-                    }
-                  />
-                  {currentQuestion == 0 ? (
-                    <div className="quizzes__content-info">
-                      <div
-                        className="quizzes__content-image"
-                        dangerouslySetInnerHTML={{ __html: quiz.display }}
-                      />
-                      <p>{quiz.value}</p>
-                    </div>
-                  ) : (
-                    <div className="quizzes__content-info">
-                      <p>{quiz.display}</p>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
+            <Quiz 
+            quizzes={quizzes}
+            currentQuestion={currentQuestion}
+            selectedOptions={selectedOptions}
+            handleAnswerOption={handleAnswerOption}
+            />
           ) : (
-            <div className="quizzes__content">
-              <div className="quizzes__message">
-                <h3>
-                  Unfortunately, we are unable to prescribe this medication for
-                  you. This is because finasteride can alter the PSA levels,
-                  which maybe used to monitor for cancer. You should discuss
-                  this further with your GP or specialist if you would still
-                  like this medication.
-                </h3>
-              </div>
-            </div>
+            <Messages state={'failure'}/>
+ 
           )}
         </div>
       )}
