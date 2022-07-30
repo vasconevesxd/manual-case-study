@@ -3,6 +3,7 @@ import Logo from '../../assets/icons/logo.svg'
 import Facebook from '../../assets/icons/facebook.svg'
 import Gmail from '../../assets/icons/gmail.svg'
 import Twitter from '../../assets/icons/twitter.svg'
+
 const Footer = () => {
     return (
         <footer className="footer">
