@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect  } from "react";
 import Link from "next/link";
 import Quiz from "../../components/elements/Quiz"
 import Messages from "../../components/elements/Messages"
@@ -32,6 +32,7 @@ const Quizzes = ({ quizzes }) => {
   const handlePrevious = () => {
     let prevQues = currentQuestion - 1;
     prevQues >= 0 && setCurrentQuestion(prevQues);
+    localStorage.setItem("currentQuestion", JSON.stringify(prevQues));
   };
 
   const handleNext = () => {
@@ -44,11 +45,13 @@ const Quizzes = ({ quizzes }) => {
           ].isRejection),
       ]);
       setSelectedOptions([...selectedOptions]);
+
       if (nextQues == quizzes.length) {
         setResult(true);
       }
     }
     nextQues < quizzes.length && setCurrentQuestion(nextQues);
+    localStorage.setItem("currentQuestion", JSON.stringify(nextQues));
   };
 
   const handleAnswerOption = (answer) => {
@@ -58,7 +61,32 @@ const Quizzes = ({ quizzes }) => {
       }),
     ]);
     setSelectedOptions([...selectedOptions]);
+   
   };
+
+  useEffect(() => {
+    if(selectedOptions.length !== 0){
+      localStorage.setItem("selectedOptions", JSON.stringify(selectedOptions));
+    }
+    if(selectedOptions[currentQuestion - 1]?.isRejected === true ||
+      result === true){
+        localStorage.removeItem("currentQuestion");
+        localStorage.removeItem("selectedOptions");
+
+      }
+  }, [selectedOptions,result]);
+
+  useEffect(() => {
+    let selected = JSON.parse(localStorage.getItem('selectedOptions'));
+    let current = localStorage.getItem('currentQuestion');
+    if (selected) {
+      setSelectedOptions(selected);
+    }
+    if(current){
+      let convert = JSON.parse(current);
+      setCurrentQuestion(convert);
+    }
+  }, []);
 
   return (
     <section className="quizzes">
