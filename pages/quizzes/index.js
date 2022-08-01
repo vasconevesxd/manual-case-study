@@ -60,8 +60,8 @@ const Quizzes = ({ quizzes }) => {
         answerByUser: answer,
       }),
     ]);
+    
     setSelectedOptions([...selectedOptions]);
-   
   };
 
   useEffect(() => {
