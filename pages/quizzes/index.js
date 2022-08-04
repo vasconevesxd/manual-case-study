@@ -4,15 +4,14 @@ import Quiz from "../../components/elements/Quiz"
 import Messages from "../../components/elements/Messages"
 
 export const getStaticProps = async () => {
+  let apiLink = "https://manual-case-study.herokuapp.com/questionnaires/6-part.json";
+  let linkName = apiLink.split("/").pop().split(".")[0];
   try {
-    const res = await fetch(
-      "https://manual-case-study.herokuapp.com/questionnaires/6-part.json"
-    );
+    const res = await fetch(apiLink);
     
     const data = await res.json();
-
     return {
-      props: { quizzes: data.questions },
+      props: { quizzes: data.questions, linkName },
     };
   } catch (error) {
     return {
@@ -24,7 +23,8 @@ export const getStaticProps = async () => {
   }
 };
 
-const Quizzes = ({ quizzes }) => {
+const Quizzes = ({ quizzes,linkName }) => {
+
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [result, setResult] = useState(false);
@@ -42,7 +42,7 @@ const Quizzes = ({ quizzes }) => {
 
       let answerReject =  quizzes[currentQuestion].options[selectedOptions[selectedOptions.length - 1].answerByUser]?.isRejection;
       let answers = selectedOptions;
-      
+
       answers[currentQuestion].isRejected = answerReject;
       setSelectedOptions([...answers]); 
 
@@ -72,20 +72,33 @@ const Quizzes = ({ quizzes }) => {
       result === true){
         localStorage.removeItem("currentQuestion");
         localStorage.removeItem("selectedOptions");
-
+        localStorage.removeItem("linkPoint");
       }
   }, [selectedOptions,result]);
 
-  useEffect(() => {
-    let selected = JSON.parse(localStorage.getItem('selectedOptions'));
-    let current = localStorage.getItem('currentQuestion'); 
-    if (selected) {
-      setSelectedOptions(selected);
+  useEffect(() => { 
+    let linkPoint = localStorage.getItem('linkPoint');
+    if(linkPoint){
+      let convertLink = JSON.parse(linkPoint);
+      if(convertLink === linkName){
+        let selected = JSON.parse(localStorage.getItem('selectedOptions'));
+        let current = localStorage.getItem('currentQuestion'); 
+        if (selected) {
+          setSelectedOptions(selected);
+        }
+        if(current){
+          let convert = JSON.parse(current);
+          setCurrentQuestion(convert);
+        }
+      }else{
+        localStorage.removeItem("currentQuestion");
+        localStorage.removeItem("selectedOptions");
+        localStorage.removeItem("linkPoint");
+      }
+    }else{
+      localStorage.setItem("linkPoint", JSON.stringify(linkName));
     }
-    if(current){
-      let convert = JSON.parse(current);
-      setCurrentQuestion(convert);
-    }
+    
   }, []);
 
   return (
