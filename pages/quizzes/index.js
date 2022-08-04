@@ -6,7 +6,7 @@ import Messages from "../../components/elements/Messages"
 export const getStaticProps = async () => {
   try {
     const res = await fetch(
-      "https://manual-case-study.herokuapp.com/questionnaires/972423.json"
+      "https://manual-case-study.herokuapp.com/questionnaires/6-part.json"
     );
     
     const data = await res.json();
@@ -37,14 +37,14 @@ const Quizzes = ({ quizzes }) => {
 
   const handleNext = () => {
     let nextQues = currentQuestion + 1;
+
     if (selectedOptions[currentQuestion]) {
-      setSelectedOptions([
-        (selectedOptions[currentQuestion].isRejected =
-          quizzes[currentQuestion].options[
-            selectedOptions[selectedOptions.length - 1].answerByUser
-          ].isRejection),
-      ]);
-      setSelectedOptions([...selectedOptions]);
+
+      let answerReject =  quizzes[currentQuestion].options[selectedOptions[selectedOptions.length - 1].answerByUser]?.isRejection;
+      let answers = selectedOptions;
+      
+      answers[currentQuestion].isRejected = answerReject;
+      setSelectedOptions([...answers]); 
 
       if (nextQues == quizzes.length) {
         setResult(true);
@@ -78,7 +78,7 @@ const Quizzes = ({ quizzes }) => {
 
   useEffect(() => {
     let selected = JSON.parse(localStorage.getItem('selectedOptions'));
-    let current = localStorage.getItem('currentQuestion');
+    let current = localStorage.getItem('currentQuestion'); 
     if (selected) {
       setSelectedOptions(selected);
     }
@@ -103,8 +103,7 @@ const Quizzes = ({ quizzes }) => {
                 {quizzes[currentQuestion].question}
               </h3>
             </div>
-          ) : null}
-
+          ) : null} 
           {selectedOptions[currentQuestion - 1]?.isRejected !== true ? (
             <Quiz 
             quizzes={quizzes}

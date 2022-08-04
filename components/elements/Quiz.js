@@ -13,8 +13,8 @@ const Quiz = ({quizzes,currentQuestion,selectedOptions,handleAnswerOption}) => {
           >
             <input
               type="radio"
-              name={quiz.value.toString()}
-              value={quiz.value.toString()}
+              name={`${quiz.value.toString()}-${index}`}
+              value={index}
               onChange={(e) => handleAnswerOption(index)}
               checked={
                 index === selectedOptions[currentQuestion]?.answerByUser
