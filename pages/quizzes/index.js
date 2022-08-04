@@ -1,30 +1,32 @@
 import { useState,useEffect  } from "react";
 import Link from "next/link";
-import Quiz from "../../components/elements/Quiz"
-import Messages from "../../components/elements/Messages"
+import Quiz from "../../components/elements/Quiz";
+import Messages from "../../components/elements/Messages";
+import Error from "../../components/elements/Error";
 
 export const getStaticProps = async () => {
   let apiLink = "https://manual-case-study.herokuapp.com/questionnaires/6-part.json";
   let linkName = apiLink.split("/").pop().split(".")[0];
   try {
-    const res = await fetch(apiLink);
-    
+    const { res, errors } = await fetch(apidLink);
+    if (errors || !data) {
+      return { notFound: true };
+    }
     const data = await res.json();
     return {
       props: { quizzes: data.questions, linkName },
     };
-  } catch (error) {
+  } catch (error){
     return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    }
+      props: {  notFound: true },
+    };
   }
 };
 
-const Quizzes = ({ quizzes,linkName }) => {
-
+const Quizzes = ({ notFound,quizzes,linkName }) => {
+  if (notFound) { 
+    return <Error />
+  }
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [result, setResult] = useState(false);
