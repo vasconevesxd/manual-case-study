@@ -8,11 +8,17 @@ export const getStaticProps = async () => {
   let apiLink = "https://manual-case-study.herokuapp.com/questionnaires/6-part.json";
   let linkName = apiLink.split("/").pop().split(".")[0];
   try {
-    const { res, errors } = await fetch(apidLink);
-    if (errors || !data) {
-      return { notFound: true };
-    }
+    const res = await fetch(apiLink);
     const data = await res.json();
+
+    data.questions.map((items) => {
+      items.options.map((item) => {
+        if(item.display.match(/<img/) !== null){
+          item['type'] = 'image'; 
+        }
+      })
+     });
+
     return {
       props: { quizzes: data.questions, linkName },
     };
@@ -24,6 +30,7 @@ export const getStaticProps = async () => {
 };
 
 const Quizzes = ({ notFound,quizzes,linkName }) => {
+  
   if (notFound) { 
     return <Error />
   }
@@ -57,13 +64,12 @@ const Quizzes = ({ notFound,quizzes,linkName }) => {
   };
 
   const handleAnswerOption = (answer) => {
-    setSelectedOptions([
-      (selectedOptions[currentQuestion] = {
-        answerByUser: answer,
-      }),
-    ]);
     
-    setSelectedOptions([...selectedOptions]);
+    let answers = selectedOptions;
+
+    answers[currentQuestion] = {answerByUser: answer};
+    setSelectedOptions([...answers]); 
+
   };
 
   useEffect(() => {
@@ -79,8 +85,8 @@ const Quizzes = ({ notFound,quizzes,linkName }) => {
   }, [selectedOptions,result]);
 
   useEffect(() => { 
-    let linkPoint = localStorage.getItem('linkPoint');
-    if(linkPoint){
+    let linkPoint = localStorage.getItem('linkPoint'); 
+    if(linkPoint === undefined){ 
       let convertLink = JSON.parse(linkPoint);
       if(convertLink === linkName){
         let selected = JSON.parse(localStorage.getItem('selectedOptions'));

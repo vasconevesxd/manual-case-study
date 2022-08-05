@@ -20,7 +20,7 @@ const Quiz = ({quizzes,currentQuestion,selectedOptions,handleAnswerOption}) => {
                 index === selectedOptions[currentQuestion]?.answerByUser
               }
             />
-            {currentQuestion == 0 ? (
+            {quiz.type == 'image' ? (
               <div className="quizzes__content-info">
                 <div
                   className="quizzes__content-image"
